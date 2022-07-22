@@ -5,13 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //Movement Variables
-    public float walkSpeed = 7f;
-    public float jumpSpeed = 7f;
-    public float gravity = 10f;
+    public float walkSpeed;
+    public float jumpSpeed;
+    public float gravity;
 
     // Camera Variables
-    public float lookSpeed = -1f; 
-    public float lookLimitX = 10;
+    public float lookSpeed;
+    public float lookLimitX;
     private float rotationX = 1;
     public Camera playerCamera; 
 
