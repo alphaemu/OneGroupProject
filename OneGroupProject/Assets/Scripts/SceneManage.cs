@@ -5,9 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class SceneManage : MonoBehaviour
 {
+    public string sceneName;
+    public int numberOfPickupsToChangeScene; 
+	
+    [SerializeField]
+	private PlayerController playerController;
 
-	public void LoadScene(string sceneName)
+    public void Start()
+    {
+        Debug.Log(playerController.collectedPickups.ToString()); 
+    }
+
+    public void Update()
+    {
+        if (playerController.collectedPickups == 3)
+        {
+            LoadScene(sceneName); 
+        }
+    }
+
+    public void LoadScene(string sceneName)
 	{
+		
 		SceneManager.LoadScene(sceneName);
 	}
 

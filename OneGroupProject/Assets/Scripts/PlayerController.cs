@@ -10,14 +10,17 @@ public class PlayerController : MonoBehaviour
     public float gravity = 10f;
 
     // Camera Variables
-    public Camera playerCamera;
     public float lookSpeed = -1f; 
     public float lookLimitX = 10;
     private float rotationX = 1;
+    public Camera playerCamera; 
 
-    // Player Informaiton
+    // Player Variables
     public int health;
-    public GameObject player;
+    //public GameObject player;
+
+    // Enemy Variables
+    public int collectedPickups; 
 
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
@@ -29,8 +32,8 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        /* Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; */ 
     }
 
     // Update is called once per frame
@@ -73,13 +76,15 @@ public class PlayerController : MonoBehaviour
 
         // Apply our final move directon to the player in game using the built in character controller move function 
         characterController.Move(moveDirection * Time.deltaTime);
-
+        
+        
         //------------------ Camera --------------------------
-        if (Input.GetKeyDown(KeyCode.G))
+        /*if (Input.GetKeyDown(KeyCode.G))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-        }
+        } 
+        
         // Calculate where our cmaera should rotate based on mouse input
         rotationX += Input.GetAxis("Mouse Y") * lookSpeed;
         rotationX = Mathf.Clamp(rotationX, -lookLimitX, lookLimitX);
@@ -89,13 +94,17 @@ public class PlayerController : MonoBehaviour
 
         // Rotate our character to match mouse input
         transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        */
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            Debug.Log("Collect");
+            collectedPickups += 1; 
+            Debug.Log(collectedPickups.ToString());
+            other.gameObject.SetActive(false); 
+            // why is Destroy function not workin? 
             Destroy(other);
         }
     }
