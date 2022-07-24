@@ -10,10 +10,11 @@ public class PlayerController : MonoBehaviour
     public float gravity = 10f;
 
     // Camera Variables
-    public float lookSpeed = -1f; 
-    public float lookLimitX = 10;
-    private float rotationX = 1;
-    public Camera playerCamera; 
+    public Camera playerCamera;
+    public float lookSpeed = -1f;
+    public float lookLimitX = 10f;
+
+    private float rotationX = 1; 
 
     // Player Variables
     public int health;
@@ -32,8 +33,8 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
 
-        /* Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false; */ 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; 
     }
 
     // Update is called once per frame
@@ -77,24 +78,20 @@ public class PlayerController : MonoBehaviour
         // Apply our final move directon to the player in game using the built in character controller move function 
         characterController.Move(moveDirection * Time.deltaTime);
         
-        
-        //------------------ Camera --------------------------
-        /*if (Input.GetKeyDown(KeyCode.G))
+        // ---------------- Camera --------------------
+        if (Input.GetKeyDown(KeyCode.G))
         {
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        } 
-        
-        // Calculate where our cmaera should rotate based on mouse input
+            Cursor.visible = true; 
+        }
+
         rotationX += Input.GetAxis("Mouse Y") * lookSpeed;
         rotationX = Mathf.Clamp(rotationX, -lookLimitX, lookLimitX);
 
-        // Rotate the camera to match vertical mouse input
         playerCamera.transform.localRotation = Quaternion.Euler(-rotationX, 0, 0);
 
-        // Rotate our character to match mouse input
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        */
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0); 
+        
     }
 
     public void OnTriggerEnter(Collider other)
