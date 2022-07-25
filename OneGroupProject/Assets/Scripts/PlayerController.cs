@@ -9,21 +9,22 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed;
     public float gravity;
 
-    // Camera Variables
-    public float lookSpeed;
-    public float lookLimitX;
-    private float rotationX = 1;
-    public Camera playerCamera; 
-
     // Player Variables
     public int health;
-    //public GameObject player;
+    //public GameObject self;
+
+    // Camera Variables
+    public Camera playerCamera;
+    public float lookSpeed = -1f;
+    public float lookLimitX = 10;
 
     // Enemy Variables
-    public int collectedPickups; 
+    public int collectedPickups;
 
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
+
+    private float rotationX = 1;
 
 
 
@@ -32,8 +33,8 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
 
-        /* Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false; */ 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
         float jumpDirectionY = moveDirection.y;
 
         // Calculate movement vector based on our speed varaibles for moving forward and side to side
-        moveDirection = (forward * currSpeedX) + (right * currSpeedY);
+        moveDirection = (-forward * currSpeedX) + (-right * currSpeedY);
 
         //Add vertical movement to our player if the player is on the ground and pressed the jump
         if (Input.GetButton("Jump") && characterController.isGrounded)
@@ -76,34 +77,19 @@ public class PlayerController : MonoBehaviour
 
         // Apply our final move directon to the player in game using the built in character controller move function 
         characterController.Move(moveDirection * Time.deltaTime);
-        
-        
-        //------------------ Camera --------------------------
-        /*if (Input.GetKeyDown(KeyCode.G))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        } 
-        
-        // Calculate where our cmaera should rotate based on mouse input
-        rotationX += Input.GetAxis("Mouse Y") * lookSpeed;
-        rotationX = Mathf.Clamp(rotationX, -lookLimitX, lookLimitX);
 
-        // Rotate the camera to match vertical mouse input
-        playerCamera.transform.localRotation = Quaternion.Euler(-rotationX, 0, 0);
+        rotationX += Input.GetAxis("Mouse X") * (Time.deltaTime * 500);
 
-        // Rotate our character to match mouse input
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        */
+        transform.rotation = Quaternion.Euler(0, -rotationX, 0);
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            collectedPickups += 1; 
+            collectedPickups += 1;
             Debug.Log(collectedPickups.ToString());
-            other.gameObject.SetActive(false); 
+            other.gameObject.SetActive(false);
             // why is Destroy function not workin? 
             Destroy(other);
         }
