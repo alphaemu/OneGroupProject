@@ -18,7 +18,7 @@ public class SceneManage : MonoBehaviour
 
     public void Update()
     {
-        if (playerController.collectedPickups == 3)
+        if (playerController.collectedPickups == numberOfPickupsToChangeScene)
         {
             LoadScene(sceneName); 
         }
